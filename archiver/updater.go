@@ -79,7 +79,7 @@ func (au *ArchiverUser) UpdateVideoMeta() {
 				log.Error().Err(err).Msgf("获取投稿信息失败: %s", vmeta.Path)
 				continue
 			}
-			if vinfo.Ecode != 0 {
+			if vinfo.Arc == nil || vinfo.Ecode != 0 {
 				log.Warn().Msgf("稿件已失效: %s", vmeta.Meta.Title)
 				// 发送通知
 				if au.config.Notification != "" {

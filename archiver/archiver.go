@@ -137,6 +137,11 @@ func (au *ArchiverUser) Run() {
 						log.Error().Err(err).Msgf("获取投稿信息失败: %s", media.Title)
 						continue
 					}
+					// 当稿件失效或信息为空时跳过以避免空指针
+					if vinfo.Arc == nil || vinfo.Ecode != 0 {
+						log.Warn().Msgf("稿件已失效: %s", media.Title)
+						continue
+					}
 
 					// 路径模板替换
 
