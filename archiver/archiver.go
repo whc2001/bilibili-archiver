@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"encoding/xml"
 	"fmt"
-	"math/rand"
 	"os"
 	"path/filepath"
 	"strings"

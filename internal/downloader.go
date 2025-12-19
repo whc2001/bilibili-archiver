@@ -3,6 +3,7 @@ package internal
 import (
 	"fmt"
 	"math"
+	"math/rand"
 	"net/url"
 	"strings"
 
