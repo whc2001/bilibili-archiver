@@ -372,7 +372,3 @@ func (dm *DownloaderManager) merge(videoPath, audioPath, outPath string) error {
 }
 
 var DM *DownloaderManager
-
-func init() {
-	DM = NewDownloaderManager()
-}

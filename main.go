@@ -59,6 +59,7 @@ func main() {
 		if err != nil {
 			log.Fatal().Err(err).Msg("加载配置文件失败")
 		}
+		internal.DM = internal.NewDownloaderManager()
 		log.Info().Msg("开始运行")
 		archiver := archiver.NewArchiverUser(*config)
 		err = archiver.Init()
