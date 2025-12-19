@@ -149,14 +149,7 @@ func (au *ArchiverUser) Run() {
 					// pdir := filepath.Dir(filepath.Join(au.config.SavePath, dirpath)) // 获取父目录 保存元数据
 					au.downloadVideMeta(fav.Title, vinfo, media.FavTime) // 下载投稿元数据
 					au.downloadVideo(fav.Title, vinfo, media)            // 下载投稿
-					// 全量模式下每个视频任务后延迟
-					if isFull {
-						// base +- randomOffset
-						randomOffset := rand.Intn((2 * au.config.FullArchiveTaskIntervalRandom) + 1) - au.config.FullArchiveTaskIntervalRandom
-						delay := au.config.FullArchiveTaskInterval + randomOffset
-						log.Info().Msgf("全量归档模式: 等待 %d 秒后继续下一个任务", delay)
-						time.Sleep(time.Duration(delay) * time.Second)
-					}
+					// time.Sleep(10 * time.Second)
 				}
 				// 获取分页 time.sleep
 				log.Debug().Msgf("收藏夹: %s pn:%d 处理完成", fav.Title, pn)

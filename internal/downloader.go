@@ -233,6 +233,13 @@ func (dm *DownloaderManager) Run() {
 				return
 			}
 			log.Info().Msgf("下载并合并完成: %s", task.Title)
+
+			if GlobalConfig.DownloadInterval > 0 {
+				randomOffset := rand.Intn((2 * GlobalConfig.DownloadIntervalRandom) + 1) - GlobalConfig.DownloadIntervalRandom
+				delay := GlobalConfig.DownloadInterval + randomOffset
+				log.Info().Msgf("下载间隔: 等待 %d 秒后继续下一个任务", delay)
+				time.Sleep(time.Duration(delay) * time.Second)
+			}
 		}()
 	}
 }
