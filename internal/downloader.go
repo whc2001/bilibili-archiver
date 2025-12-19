@@ -70,8 +70,8 @@ func NewDownloaderManager() *DownloaderManager {
 	return &DownloaderManager{
 		taskChan:    taskChan,
 		client:      client,
-		concurrency: 10,
-		downloadSem: make(chan struct{}, 5), // 限制最多5个并发任务
+		concurrency: 10, // 每个任务的线程数
+		downloadSem: make(chan struct{}, GlobalConfig.DownloadTaskConcurrency),	// 同时下载个数
 		taskGroups:  make(map[string]*TaskGroup),
 	}
 }

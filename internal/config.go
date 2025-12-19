@@ -21,6 +21,7 @@ type Config struct {
 	CustomScript      string   `yaml:"custom_script"`      // 自定义脚本
 	RunAfterUpdate    string   `yaml:"run_after_update"`   // 更新后运行脚本
 	DisablePCDN       bool     `yaml:"disable_pcdn"`       // 禁用PCDN下载视频
+	DownloadTaskConcurrency int    `yaml:"download_task_concurrency"` // 下载任务并发数
 	DownloadInterval int    `yaml:"download_interval"` // 下载间隔(秒)
 	DownloadIntervalRandom int	`yaml:"download_interval_random"` // 下载间隔随机偏移(秒)
 }
@@ -56,6 +57,9 @@ func LoadConfig(path string) (*Config, error) {
 	if config.UpdateDL <= 0 {
 		config.UpdateDL = 7 // 默认7天
 	}
+	if config.DownloadTaskConcurrency <= 0 {
+		config.DownloadTaskConcurrency = 5 // 默认5个同时
+	}
 	if config.DownloadInterval < 0 {
 		config.DownloadInterval = 60 // 默认1分钟
 	}
@@ -79,6 +83,7 @@ func LoadConfig(path string) (*Config, error) {
 	fmt.Println("- 自定义脚本:", config.CustomScript)
 	fmt.Println("- 更新后运行脚本:", config.RunAfterUpdate)
 	fmt.Println("- 禁用PCDN下载视频:", config.DisablePCDN)
+	fmt.Println("- 下载任务并发数:", config.DownloadTaskConcurrency)
 	if config.DownloadInterval > 0 {
 		fmt.Println("- 下载间隔:", config.DownloadInterval - config.DownloadIntervalRandom, " ~ ", config.DownloadInterval + config.DownloadIntervalRandom, "秒")
 	}
