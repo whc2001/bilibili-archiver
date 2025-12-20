@@ -22,6 +22,7 @@ type Config struct {
 	RunAfterUpdate    string   `yaml:"run_after_update"`   // 更新后运行脚本
 	DisablePCDN       bool     `yaml:"disable_pcdn"`       // 禁用PCDN下载视频
 	DownloadTaskConcurrency int    `yaml:"download_task_concurrency"` // 下载任务并发数
+	DownloadThreadConcurrency int    `yaml:"download_thread_concurrency"` // 单任务下载线程数
 	DownloadInterval int    `yaml:"download_interval"` // 下载间隔(秒)
 	DownloadIntervalRandom int	`yaml:"download_interval_random"` // 下载间隔随机偏移(秒)
 }
@@ -66,6 +67,9 @@ func LoadConfig(path string) (*Config, error) {
 	if config.DownloadIntervalRandom < 0 {
 		config.DownloadIntervalRandom = 30 // 默认30秒
 	}
+	if config.DownloadThreadConcurrency <= 0 {
+		config.DownloadThreadConcurrency = 10 // 默认10线程
+	}
 
 	// 统一打印配置信息
 	fmt.Println("当前配置信息:")
@@ -84,6 +88,7 @@ func LoadConfig(path string) (*Config, error) {
 	fmt.Println("- 更新后运行脚本:", config.RunAfterUpdate)
 	fmt.Println("- 禁用PCDN下载视频:", config.DisablePCDN)
 	fmt.Println("- 下载任务并发数:", config.DownloadTaskConcurrency)
+	fmt.Println("- 下载线程并发数:", config.DownloadThreadConcurrency)
 	if config.DownloadInterval > 0 {
 		fmt.Println("- 下载间隔:", config.DownloadInterval - config.DownloadIntervalRandom, " ~ ", config.DownloadInterval + config.DownloadIntervalRandom, "秒")
 	}

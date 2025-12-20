@@ -51,7 +51,7 @@ type DownloaderManager struct {
 }
 
 func NewDownloaderManager() *DownloaderManager {
-	taskChan := make(chan *DownloadTask, 10)
+	taskChan := make(chan *DownloadTask, GlobalConfig.DownloadTaskConcurrency)	// 任务队列长度与同时下载个数保持一致
 	client := req.C().SetCommonHeaders(
 		map[string]string{
 			"Referer": "https://www.bilibili.com/",
@@ -70,7 +70,7 @@ func NewDownloaderManager() *DownloaderManager {
 	return &DownloaderManager{
 		taskChan:    taskChan,
 		client:      client,
-		concurrency: 10, // 每个任务的线程数
+		concurrency: GlobalConfig.DownloadThreadConcurrency, // 每个任务的线程数
 		downloadSem: make(chan struct{}, GlobalConfig.DownloadTaskConcurrency),	// 同时下载个数
 		taskGroups:  make(map[string]*TaskGroup),
 	}
